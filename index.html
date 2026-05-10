@@ -3,109 +3,129 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RITRO | Official Online Store</title>
+    <title>RITRO | Premium Apparel & Identity</title>
     <style>
-        .logo-container {
-    text-align: center;
-    padding: 20px;
-}
-
-.main-logo {
-    width: 180px; /* Adjust this number to make the logo bigger or smaller */
-    height: auto; /* This keeps the proportions perfect so it doesn't look stretched */
-}
+        /* Global Styles */
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; background: #d5e2e3; color: #000; line-height: 1.6; }
-<div class="logo-container">
-    <img src="ritro.png" alt="RITRO Official Logo" class="main-logo">
-</div>
-        /* Navigation - Zara Style */
+        body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; background: #ffffff; color: #000; line-height: 1.5; overflow-x: hidden; }
+
+        /* Navigation Bar */
         nav {
-            position: sticky; top: 0; width: 100%; padding: 20px 40px;
-            background: rgba(255, 255, 255, 0.95); display: flex;
+            position: fixed; top: 0; width: 100%; padding: 25px 50px;
+            background: rgba(255, 255, 255, 0.98); display: flex;
             justify-content: space-between; align-items: center; z-index: 1000;
+            border-bottom: 1px solid #f2f2f2;
         }
-        .logo-text { font-size: 2.5rem; font-weight: 900; letter-spacing: 15px; text-decoration: none; color: #000; }
-        .nav-links a { text-decoration: none; color: #000; margin-left: 25px; font-size: 0.75rem; text-transform: uppercase; font-weight: bold; }
+        .logo-container img { height: 35px; width: auto; } /* Uses your ritro.png */
+        .nav-links a { text-decoration: none; color: #000; margin-left: 30px; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px; font-weight: 600; }
+        .nav-links a:hover { color: #888; }
 
-        /* Hero Section */
+        /* Hero Banner Section */
         .hero {
-            height: 90vh; width: 100%; background: #f4f4f4;
+            height: 90vh; width: 100%; background: #f9f9f9;
             display: flex; align-items: center; justify-content: center;
-            flex-direction: column; text-align: center;
-            background-image: url('hero-bg.jpg'); /* Replace with a real t-shirt photo later */
-            background-size: cover; background-position: center;
+            flex-direction: column; text-align: center; margin-top: 80px;
         }
-        .hero h2 { font-size: 3rem; font-weight: 300; letter-spacing: 5px; margin-bottom: 20px; }
+        .hero h1 { font-size: 3.5rem; font-weight: 200; letter-spacing: 12px; margin-bottom: 20px; text-transform: uppercase; }
+        .cta-btn { padding: 15px 45px; border: 1px solid #000; text-decoration: none; color: #000; font-size: 0.75rem; text-transform: uppercase; transition: 0.3s; letter-spacing: 2px; }
+        .cta-btn:hover { background: #000; color: #fff; }
 
-        /* Product Grid */
-        .container { padding: 60px 40px; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; }
-        .product-card { text-align: left; cursor: pointer; }
-        .product-image { width: 100%; height: 450px; background: #f0f0f0; margin-bottom: 15px; transition: 0.3s; }
-        .product-image:hover { opacity: 0.8; }
-        .product-info h3 { font-size: 0.85rem; font-weight: bold; text-transform: uppercase; }
-        .product-info p { font-size: 0.85rem; color: #666; }
+        /* Product Grid Section */
+        .section-title { padding: 60px 50px 20px; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 4px; color: #666; }
+        .container { padding: 0 50px 80px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 30px; }
+        .product-card { cursor: pointer; transition: 0.3s; margin-bottom: 20px; }
+        .product-image { width: 100%; height: 500px; background: #f0f0f0; margin-bottom: 15px; position: relative; }
+        .product-image:hover { opacity: 0.85; }
+        .product-info { display: flex; justify-content: space-between; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; }
+        .price { color: #777; }
+
+        /* Simple Blog Section */
+        .blog-preview { background: #fafafa; padding: 100px 50px; text-align: center; }
+        .blog-preview h2 { font-size: 1.5rem; letter-spacing: 5px; margin-bottom: 30px; }
 
         /* Footer */
-        footer { padding: 60px 40px; border-top: 1px solid #eee; font-size: 0.7rem; color: #888; text-align: center; text-transform: uppercase; letter-spacing: 1px; }
+        footer { padding: 80px 50px; border-top: 1px solid #eee; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px; color: #888; }
+        .footer-col h4 { color: #000; margin-bottom: 20px; }
+        .copyright { grid-column: 1 / -1; text-align: center; margin-top: 50px; border-top: 1px solid #f9f9f9; padding-top: 30px; }
 
         @media (max-width: 768px) {
-            .logo-text { font-size: 1.5rem; letter-spacing: 8px; }
-            .nav-links { display: none; } /* Simplified for mobile */
+            nav { padding: 20px; }
+            .nav-links { display: none; } /* Mobile menu would go here */
+            .hero h1 { font-size: 2rem; }
         }
     </style>
 </head>
 <body>
 
     <nav>
-        <a href="#" class="logo-text">RITRO</a>
+        <div class="logo-container">
+            <a href="#"><img src="ritro.png" alt="RITRO"></a>
+        </div>
         <div class="nav-links">
-            <a href="#">New Arrivals</a>
-            <a href="#">Collection</a>
-            <a href="#">About</a>
-            <a href="#">Blogs</a>
+            <a href="#new">New Arrivals</a>
+            <a href="#collection">Collection</a>
+            <a href="#blog">Blogs</a>
             <a href="#">Search</a>
         </div>
     </nav>
 
-    <header class="hero">
-        <h2>NEW COLLECTION</h2>
-        <p><b>Make Your Fashion Better With RITRO</b></p>
-    </header>
+    <section class="hero">
+        <h1>Identity Defined</h1>
+        <a href="#new" class="cta-btn">Shop Now</a>
+    </section>
 
+    <h3 class="section-title" id="new">New Arrivals</h3>
     <div class="container">
         <div class="grid">
             <div class="product-card">
-                <div class="product-image">
-                    </div>
+                <div class="product-image"></div>
                 <div class="product-info">
-                    <h3>Oversized Graphic Tee</h3>
-                    <p><b>3,499 BDT</b></p>
+                    <span>Essential Oversized Tee</span>
+                    <span class="price">3,500 BDT</span>
                 </div>
             </div>
-
             <div class="product-card">
                 <div class="product-image"></div>
                 <div class="product-info">
-                    <h3>Classic RITRO Hoodie</h3>
-                    <p><b>5,199 BDT</b></p>
+                    <span>Signature Identity Hoodie</span>
+                    <span class="price">5,200 BDT</span>
                 </div>
             </div>
-
             <div class="product-card">
                 <div class="product-image"></div>
                 <div class="product-info">
-                    <h3>Minimalist Sweatpants</h3>
-                    <p><b></b>3,999 BDT</b></p>
+                    <span>Premium Cotton Joggers</span>
+                    <span class="price">4,000 BDT</span>
                 </div>
             </div>
         </div>
     </div>
 
+    <section class="blog-preview" id="blog">
+        <h2>THE JOURNAL</h2>
+        <p style="font-size: 0.8rem; letter-spacing: 2px;">DISCOVER THE STORY BEHIND OUR LATEST DROP</p>
+    </section>
+
     <footer>
-        &copy; 2026 RITRO Fashion. All rights reserved. <br>
-        Bangladesh | Global Shipping
+        <div class="footer-col">
+            <h4>Support</h4>
+            <p>Shipping & Returns</p>
+            <p>Contact Us</p>
+        </div>
+        <div class="footer-col">
+            <h4>Company</h4>
+            <p>Our Story</p>
+            <p>Sustainability</p>
+        </div>
+        <div class="footer-col">
+            <h4>Social</h4>
+            <p>Instagram</p>
+            <p>Facebook</p>
+        </div>
+        <div class="copyright">
+            &copy; 2026 RITRO STUDIO — QUALITY APPAREL & BRAND IDENTITY
+        </div>
     </footer>
 
 </body>
