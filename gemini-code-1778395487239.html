@@ -5,90 +5,217 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RITRO | Official Online Store</title>
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; background: #fff; color: #000; line-height: 1.6; }
+        :root { --main-font: 'Helvetica Neue', Arial, sans-serif; --spacing: 40px; }
+        * { margin: 0; padding: 0; box-sizing: border-box; scroll-behavior: smooth; }
+        body { font-family: var(--main-font); color: #000; background: #fff; line-height: 1.6; }
 
-        /* Navigation - Zara Style */
-        nav {
-            position: sticky; top: 0; width: 100%; padding: 20px 40px;
-            background: rgba(255, 255, 255, 0.95); display: flex;
-            justify-content: space-between; align-items: center; z-index: 1000;
-        }
-        .logo-text { font-size: 2.5rem; font-weight: 900; letter-spacing: 15px; text-decoration: none; color: #000; }
-        .nav-links a { text-decoration: none; color: #000; margin-left: 25px; font-size: 0.75rem; text-transform: uppercase; font-weight: bold; }
+        /* Navigation */
+        nav { position: fixed; top: 0; width: 100%; padding: 25px 50px; background: #fff; display: flex; justify-content: space-between; align-items: center; z-index: 2000; border-bottom: 1px solid #eee; }
+        .logo img { height: 32px; cursor: pointer; }
+        .nav-links a { text-decoration: none; color: #000; margin-right: 25px; font-size: 11px; text-transform: uppercase; letter-spacing: 2px; font-weight: bold; }
+        .nav-right button { background: none; border: none; cursor: pointer; margin-left: 20px; font-size: 11px; text-transform: uppercase; letter-spacing: 2px; font-weight: bold; }
+        .cart-dot { background: #000; color: #fff; padding: 2px 6px; border-radius: 50%; font-size: 9px; vertical-align: top; }
 
-        /* Hero Section */
-        .hero {
-            height: 90vh; width: 100%; background: #f4f4f4;
-            display: flex; align-items: center; justify-content: center;
-            flex-direction: column; text-align: center;
-            background-image: url('hero-bg.jpg'); /* Replace with a real t-shirt photo later */
-            background-size: cover; background-position: center;
-        }
-        .hero h2 { font-size: 3rem; font-weight: 300; letter-spacing: 5px; margin-bottom: 20px; }
+        /* Search Bar */
+        #searchBar { display: none; position: fixed; top: 83px; width: 100%; background: #fff; padding: 20px 50px; z-index: 1500; border-bottom: 1px solid #eee; }
+        #searchBar input { width: 100%; border: none; font-size: 1.2rem; outline: none; text-transform: uppercase; }
 
-        /* Product Grid */
-        .container { padding: 60px 40px; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; }
-        .product-card { text-align: left; cursor: pointer; }
-        .product-image { width: 100%; height: 450px; background: #f0f0f0; margin-bottom: 15px; transition: 0.3s; }
-        .product-image:hover { opacity: 0.8; }
-        .product-info h3 { font-size: 0.85rem; font-weight: bold; text-transform: uppercase; }
-        .product-info p { font-size: 0.85rem; color: #666; }
+        /* Hero */
+        .hero { height: 90vh; background: #f6f6f6; display: flex; align-items: center; justify-content: center; text-align: center; flex-direction: column; }
+        .hero h1 { font-size: 5rem; font-weight: 200; letter-spacing: 20px; margin-bottom: 20px; }
+        .hero p { letter-spacing: 5px; text-transform: uppercase; font-size: 12px; margin-bottom: 30px; }
+        .shop-now { padding: 15px 40px; border: 1px solid #000; text-decoration: none; color: #000; font-size: 11px; letter-spacing: 2px; transition: 0.3s; }
+        .shop-now:hover { background: #000; color: #fff; }
+
+        /* Store Section */
+        .section { padding: 80px 50px; }
+        .section-title { font-size: 12px; letter-spacing: 5px; text-transform: uppercase; margin-bottom: 40px; border-bottom: 1px solid #eee; padding-bottom: 10px; }
+        .product-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; }
+        .product-card { cursor: pointer; position: relative; }
+        .product-card img { width: 100%; height: 450px; object-fit: cover; background: #eee; transition: 0.4s; }
+        .product-card:hover img { opacity: 0.8; }
+        .add-btn { position: absolute; bottom: 80px; left: 0; width: 100%; padding: 15px; background: rgba(0,0,0,0.8); color: #fff; border: none; opacity: 0; transition: 0.3s; font-size: 10px; letter-spacing: 2px; }
+        .product-card:hover .add-btn { opacity: 1; }
+        .product-info { padding: 15px 0; display: flex; justify-content: space-between; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; }
+
+        /* Cart Sidebar */
+        #cart { position: fixed; right: -400px; top: 0; width: 400px; height: 100%; background: #fff; z-index: 3000; box-shadow: -5px 0 15px rgba(0,0,0,0.1); padding: 40px; transition: 0.4s; }
+        #cart.open { right: 0; }
+        .cart-header { display: flex; justify-content: space-between; margin-bottom: 40px; }
+        .cart-item { display: flex; justify-content: space-between; margin-bottom: 20px; font-size: 12px; border-bottom: 1px solid #eee; padding-bottom: 10px; }
+
+        /* Blog Section */
+        .blog-card { background: #fff; padding: 20px; border: 1px solid #eee; text-decoration: none; color: #000; transition: 0.3s; }
+        .blog-card:hover { border-color: #000; }
+        .blog-card h4 { margin-bottom: 10px; letter-spacing: 1px; }
+        .blog-card p { font-size: 12px; color: #666; }
 
         /* Footer */
-        footer { padding: 60px 40px; border-top: 1px solid #eee; font-size: 0.7rem; color: #888; text-align: center; text-transform: uppercase; letter-spacing: 1px; }
+        footer { padding: 80px 50px; background: #fff; border-top: 1px solid #eee; display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px; font-size: 11px; text-transform: uppercase; letter-spacing: 1px; }
+        .footer-col h4 { margin-bottom: 20px; font-size: 12px; }
+        .footer-col a { display: block; text-decoration: none; color: #777; margin-bottom: 10px; transition: 0.2s; cursor: pointer; }
+        .footer-col a:hover { color: #000; }
+        .copyright { grid-column: 1/-1; text-align: center; border-top: 1px solid #eee; padding-top: 40px; color: #ccc; }
 
-        @media (max-width: 768px) {
-            .logo-text { font-size: 1.5rem; letter-spacing: 8px; }
-            .nav-links { display: none; } /* Simplified for mobile */
-        }
+        @media (max-width: 768px) { nav { padding: 20px; } .nav-links { display: none; } #cart { width: 100%; right: -100%; } }
     </style>
 </head>
 <body>
 
-    <nav>
-        <a href="#" class="logo-text">RITRO</a>
-        <div class="nav-links">
-            <a href="#">New Arrivals</a>
-            <a href="#">Collection</a>
-            <a href="#">About</a>
-            <a href="#">Search</a>
+<nav>
+    <div class="logo"><img src="ritro.png" alt="RITRO" onclick="window.scrollTo(0,0)"></div>
+    <div class="nav-links">
+        <a href="#new">New Arrivals</a>
+        <a href="#collection">Collection</a>
+        <a href="#blog">Journal</a>
+        <a href="#footer">Support</a>
+    </div>
+    <div class="nav-right">
+        <button onclick="toggleSearch()">Search</button>
+        <button onclick="toggleCart()">Cart (<span id="cartCount">0</span>)</button>
+    </div>
+</nav>
+
+<div id="searchBar">
+    <input type="text" id="searchInput" placeholder="Search our collection..." onkeyup="searchProducts()">
+</div>
+
+<div id="cart">
+    <div class="cart-header">
+        <h3>YOUR BAG</h3>
+        <button onclick="toggleCart()" style="font-weight:bold; border:none; background:none; cursor:pointer;">CLOSE</button>
+    </div>
+    <div id="cartItems"></div>
+    <div id="cartTotal" style="margin-top:20px; font-weight:bold;">Total: 0 BDT</div>
+    <button onclick="checkout()" style="width:100%; padding:20px; background:#000; color:#fff; border:none; margin-top:30px; cursor:pointer; letter-spacing:2px;">CHECKOUT</button>
+</div>
+
+<section class="hero">
+    <h1>RITRO</h1>
+    <p>Premium Identity & Apparel</p>
+    <a href="#new" class="shop-now">SHOP THE DROP</a>
+</section>
+
+<section class="section" id="new">
+    <h2 class="section-title">New Arrivals</h2>
+    <div class="product-grid" id="productGrid">
+        <div class="product-card">
+            <img src="product1.jpg" alt="Item">
+            <button class="add-btn" onclick="addToCart('Essential Tee', 3500)">ADD TO BAG</button>
+            <div class="product-info"><span>Essential Oversized Tee</span><span>3,500 BDT</span></div>
         </div>
-    </nav>
-
-    <header class="hero">
-        <h2>NEW COLLECTION</h2>
-        <p>Premium Streetwear & Identity</p>
-    </header>
-
-    <div class="container">
-        <div class="grid">
-            <div class="product-card">
-                <div class="product-image">
-                    </div>
-                <div class="product-info">
-                    <h3>Oversized Graphic Tee</h3>
-                    <p>3,500 BDT</p>
-                </div>
-            </div>
-
-            <div class="product-card">
-                <div class="product-image"></div>
-                <div class="product-info">
-                    <h3>Classic RITRO Hoodie</h3>
-                    <p>5,200 BDT</p>
-                </div>
-            </div>
-
-            <div class="product-card">
-                <div class="product-image"></div>
-                <div class="product-info">
-                    <h3>Minimalist Sweatpants</h3>
-                    <p>4,000 BDT</p>
-                </div>
-            </div>
+        <div class="product-card">
+            <img src="product2.jpg" alt="Item">
+            <button class="add-btn" onclick="addToCart('Signature Hoodie', 5200)">ADD TO BAG</button>
+            <div class="product-info"><span>Signature Identity Hoodie</span><span>5,200 BDT</span></div>
         </div>
+        <div class="product-card">
+            <img src="product3.jpg" alt="Item">
+            <button class="add-btn" onclick="addToCart('Cotton Joggers', 4000)">ADD TO BAG</button>
+            <div class="product-info"><span>Premium Cotton Joggers</span><span>4,000 BDT</span></div>
+        </div>
+    </div>
+</section>
+
+<section class="section" id="blog" style="background:#fafafa;">
+    <h2 class="section-title">Journal</h2>
+    <div class="product-grid">
+        <div class="blog-card" onclick="alert('Blog loading...')">
+            <h4>THE DESIGN PHILOSOPHY</h4>
+            <p>Discover the art of minimalism behind RITRO's first collection.</p>
+        </div>
+        <div class="blog-card" onclick="alert('Blog loading...')">
+            <h4>SUSTAINABLE IDENTITY</h4>
+            <p>How we source our premium materials responsibly.</p>
+        </div>
+    </div>
+</section>
+
+<footer id="footer">
+    <div class="footer-col">
+        <h4>Support</h4>
+        <a onclick="alert('Track Order feature coming soon!')">Track Order</a>
+        <a onclick="alert('Delivery: 3-5 business days.')">Shipping Info</a>
+        <a onclick="alert('Return: 7-day policy.')">Returns</a>
+        <a href="mailto:support@ritroclothing.com">Contact Us</a>
+    </div>
+    <div class="footer-col">
+        <h4>Company</h4>
+        <a onclick="alert('RITRO established 2025.')">Our Story</a>
+        <a onclick="alert('Ethical manufacturing active.')">Responsibility</a>
+        <a onclick="alert('Careers currently closed.')">Careers</a>
+    </div>
+    <div class="footer-col">
+        <h4>Social</h4>
+        <a href="https://www.instagram.com/ritroclothing/" target="_blank">Instagram</a>
+        <a href="https://www.facebook.com/profile.php?id=61574659364171" target="_blank">Facebook</a>
+    </div>
+    <div class="copyright">
+        &copy; 2026 RITRO STUDIO — ALL RIGHTS RESERVED.
+    </div>
+</footer>
+
+<script>
+    let cart = [];
+    let totalPrice = 0;
+
+    function toggleCart() {
+        document.getElementById('cart').classList.toggle('open');
+    }
+
+    function toggleSearch() {
+        let bar = document.getElementById('searchBar');
+        bar.style.display = (bar.style.display === 'block') ? 'none' : 'block';
+    }
+
+    function addToCart(name, price) {
+        cart.push({name, price});
+        totalPrice += price;
+        updateCartUI();
+        if(!document.getElementById('cart').classList.contains('open')) toggleCart();
+    }
+
+    function updateCartUI() {
+        const cartItems = document.getElementById('cartItems');
+        const cartCount = document.getElementById('cartCount');
+        const cartTotal = document.getElementById('cartTotal');
+        
+        cartCount.innerText = cart.length;
+        cartTotal.innerText = `Total: ${totalPrice.toLocaleString()} BDT`;
+        
+        if (cart.length === 0) {
+            cartItems.innerHTML = '<p style="color:#888;">Your bag is empty.</p>';
+        } else {
+            cartItems.innerHTML = cart.map((item, index) => `
+                <div class="cart-item">
+                    <span>${item.name}</span>
+                    <span>${item.price.toLocaleString()} BDT</span>
+                </div>
+            `).join('');
+        }
+    }
+
+    function searchProducts() {
+        let input = document.getElementById('searchInput').value.toUpperCase();
+        let cards = document.getElementsByClassName('product-card');
+        for (let i = 0; i < cards.length; i++) {
+            let title = cards[i].getElementsByClassName('product-info')[0].innerText;
+            cards[i].style.display = title.toUpperCase().indexOf(input) > -1 ? "" : "none";
+        }
+    }
+
+    function checkout() {
+        if(cart.length === 0) return alert("Your bag is empty!");
+        alert("Redirecting to Secure Checkout...");
+        cart = [];
+        totalPrice = 0;
+        updateCartUI();
+        toggleCart();
+    }
+</script>
+
+</body>
+</html>
     </div>
 
     <footer>
