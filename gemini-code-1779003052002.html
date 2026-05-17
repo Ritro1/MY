@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RITRO | Official Online Store</title>
+    <style>
+        :root {
+            --brand-main: #000000;
+            --brand-secondary: #767676;
+            --bg-light: #f4f4f4;
+            --white: #ffffff;
+            --transition: all 0.3s ease;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+        body { font-family: "Helvetica Neue", Arial, sans-serif; background: var(--white); color: var(--brand-main); overflow-x: hidden; }
+        
+        /* Premium Navigation */
+        header {
+            position: fixed; top: 0; width: 100%; height: 80px;
+            background: rgba(255, 255, 255, 0.98); display: flex;
+            justify-content: space-between; align-items: center;
+            padding: 0 5%; z-index: 5000; border-bottom: 1px solid #eee;
+        }
+        .logo { font-size: 22px; font-weight: 900; letter-spacing: 10px; cursor: pointer; text-transform: uppercase; }
+        
+        nav ul { display: flex; list-style: none; gap: 30px; }
+        nav ul li a { 
+            font-size: 11px; font-weight: bold; letter-spacing: 2px; 
+            text-transform: uppercase; text-decoration: none; color: var(--brand-main);
+        }
+
+        .nav-tools { display: flex; gap: 20px; align-items: center; }
+        .tool-btn { background: none; border: none; font-size: 11px; font-weight: bold; letter-spacing: 1px; cursor: pointer; text-transform: uppercase; }
+        .cart-count { background: #000; color: #fff; padding: 2px 6px; border-radius: 50%; font-size: 9px; margin-left: 4px; }
+
+        /* Hero Section */
+        .hero {
+            height: 70vh; background: #e5e5e5; display: flex;
+            flex-direction: column; align-items: center; justify-content: center;
+            text-align: center; margin-top: 80px;
+            background-image: url('https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=1600&q=80');
+            background-size: cover; background-position: center;
+        }
+        .hero-content { background: rgba(255,255,255,0.8); padding: 40px 60px; }
+        .hero h1 { font-size: 50px; font-weight: 200; letter-spacing: 15px; text-transform: uppercase; }
+
+        /* Product Grid */
+        .container { padding: 80px 5%; }
+        .section-header { margin-bottom: 40px; border-bottom: 1px solid #eee; padding-bottom: 15px; }
+        .section-header h2 { font-size: 12px; letter-spacing: 4px; text-transform: uppercase; }
+
+        .product-grid { 
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); 
+            gap: 40px; 
+        }
+        .product-card { position: relative; cursor: pointer; }
+        .product-image-box { position: relative; width: 100%; height: 400px; background: #f2f2f2; overflow: hidden; }
+        .product-image-box img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; }
+        .product-card:hover img { transform: scale(1.05); }
+
+        .add-to-bag {
+            position: absolute; bottom: 0; width: 100%; background: #000;
+            color: #fff; text-align: center; padding: 15px; font-size: 10px;
+            letter-spacing: 2px; transform: translateY(100%); transition: var(--transition);
+        }
+        .product-card:hover .add-to-bag { transform: translateY(0); }
+        .product-info { display: flex; justify-content: space-between; padding: 15px 0; font-size: 11px; letter-spacing: 1px; text-transform: uppercase; }
+
+        /* Cart Sidebar */
+        #cart-sidebar {
+            position: fixed; right: -100%; top: 0; width: 400px; height: 100vh;
+            background: var(--white); z-index: 6000; box-shadow: -10px 0 30px rgba(0,0,0,0.1);
+            padding: 40px; transition: 0.4s ease; display: flex; flex-direction: column;
+        }
+        #cart-sidebar.active { right: 0; }
+        .cart-items { flex: 1; overflow-y: auto; margin-top: 20px; }
+        .cart-item { display: flex; gap: 15px; margin-bottom: 20px; padding-bottom: 15px; border-bottom: 1px solid #eee; }
+        .cart-item img { width: 60px; height: 80px; object-fit: cover; }
+        .checkout-btn { width: 100%; background: #000; color: #fff; padding: 20px; border: none; font-weight: bold; letter-spacing: 2px; text-transform: uppercase; cursor: pointer; }
+
+        footer { padding: 60px 5%; background: #f9f9f9; text-align: center; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: #888; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">RITRO</div>
+        <nav>
+            <ul>
+                <li><a href="#">New Arrivals</a></li>
+                <li><a href="#">Collection</a></li>
+            </ul>
+        </nav>
+        <div class="nav-tools">
+            <button class="tool-btn" onclick="toggleCart()">Bag (<span id="count">0</span>)</button>
+        </div>
+    </header>
+
+    <div id="cart-sidebar">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+            <h3 style="letter-spacing:2px; font-size:14px;">YOUR BAG</h3>
+            <button class="tool-btn" onclick="toggleCart()">Close</button>
+        </div>
+        <div class="cart-items" id="cart-list"></div>
+        <div style="padding-top:20px; border-top:1px solid #000;">
+            <div style="display:flex; justify-content:space-between; margin-bottom:20px; font-weight:bold;">
+                <span>TOTAL</span>
+                <span id="total">0 BDT</span>
+            </div>
+            <button class="checkout-btn" onclick="alert('Proceeding to Secure Checkout...')">Checkout</button>
+        </div>
+    </div>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1>RITRO</h1>
+            <p style="letter-spacing:5px; font-size:10px; margin-top:10px;">IDENTITY 2026</p>
+        </div>
+    </section>
+
+    <section class="container">
+        <div class="section-header"><h2>Featured Products</h2></div>
+        <div class="product-grid" id="product-root"></div>
+    </section>
+
+    <footer>&copy; 2026 RITRO STUDIO. All Rights Reserved.</footer>
+
+    <script>
+        const products = [
+            { id: 1, name: "Essential Tee", price: 3500, img: "https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=800&q=80" },
+            { id: 2, name: "Signature Hoodie", price: 5200, img: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&w=800&q=80" },
+            { id: 3, name: "Premium Joggers", price: 4000, img: "https://images.unsplash.com/photo-1580487212156-780976584627?auto=format&fit=crop&w=800&q=80" },
+            { id: 4, name: "Studio Cap", price: 1800, img: "https://images.unsplash.com/photo-1588850561407-ed78c282e89b?auto=format&fit=crop&w=800&q=80" }
+        ];
+
+        let bag = [];
+
+        function render() {
+            document.getElementById('product-root').innerHTML = products.map(p => `
+                <div class="product-card">
+                    <div class="product-image-box">
+                        <img src="${p.img}">
+                        <div class="add-to-bag" onclick="addToBag(${p.id})">ADD TO BAG</div>
+                    </div>
+                    <div class="product-info">
+                        <span>${p.name}</span>
+                        <span>${p.price} BDT</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function toggleCart() { document.getElementById('cart-sidebar').classList.toggle('active'); }
+
+        function addToBag(id) {
+            bag.push(products.find(p => p.id === id));
+            updateBag();
+            if(!document.getElementById('cart-sidebar').classList.contains('active')) toggleCart();
+        }
+
+        function updateBag() {
+            document.getElementById('count').innerText = bag.length;
+            const list = document.getElementById('cart-list');
+            let total = 0;
+            list.innerHTML = bag.map(item => {
+                total += item.price;
+                return `<div class="cart-item">
+                    <img src="${item.img}">
+                    <div>
+                        <p style="font-size:11px; font-weight:bold;">${item.name}</p>
+                        <p style="font-size:10px; color:#888;">${item.price} BDT</p>
+                    </div>
+                </div>`;
+            }).join('');
+            document.getElementById('total').innerText = total + " BDT";
+        }
+
+        window.onload = render;
+    </script>
+</body>
+</html>
